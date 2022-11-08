@@ -5,7 +5,7 @@ open XPlot.Plotly
 open Hoge
 open System
 
-(*let averagePacket = [|for _ in 1..7 -> 0.0|]
+let averagePacket = [|for _ in 1..7 -> 0.0|]
 let averageTime = [|for _ in 1..7 -> 0.0|]
 let averageDisposePercentage = [|for _ in 1..7 -> 0.0|]
 
@@ -30,7 +30,7 @@ let rec loop1 i =
 loop1 0
 let plist = averagePacket |> Array.map (fun x -> x / 10.) |> Array.toList
 plist |> List.iter (fun x -> stdout.WriteLine x)
-*)
+
 
 let rec loop2 j =
     if j = 7 then ()
@@ -41,4 +41,6 @@ let rec loop2 j =
         a.Theoretical()
         printfn $"{a.N} {a.W} {a.Pk}"
         loop2 (j + 1)
+#time "on"        
 loop2 0
+#time "off"
