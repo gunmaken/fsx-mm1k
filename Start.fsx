@@ -28,7 +28,10 @@ let rec loop1 i =
         loop1 (i + 1)
 
 loop1 0
+let xlist = [for i in 0..6 -> Math.Round (0.7 + (i |> double) * 0.05, 2)]
 let plist = averagePacket |> Array.map (fun x -> x / 10.) |> Array.toList
+let llist = averageTime |> Array.map (fun x -> x / 10.) |> Array.toList
+let dlist = averageDisposePercentage |> Array.map (fun x -> x / 10.) |> Array.toList
 plist |> List.iter (fun x -> stdout.WriteLine x)
 
 
@@ -41,6 +44,5 @@ let rec loop2 j =
         a.Theoretical()
         printfn $"{a.N} {a.W} {a.Pk}"
         loop2 (j + 1)
-#time "on"        
+
 loop2 0
-#time "off"
