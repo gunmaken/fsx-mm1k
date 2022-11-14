@@ -126,11 +126,13 @@ namespace Hoge
             AverageTime = Elements.Sum(x => x.StaySystemTime) / Elements.Count();
             AverageDisposePercentage = (double)Elements.Count(x => x.StaySystemTime == 0.0) / Elements.Count();
 
+            /*
             Console.WriteLine();
             Console.WriteLine($"{this.Lambda} {this.Mu}");
             Console.WriteLine($"平均パケット数: {AveragePacket}");
             Console.WriteLine($"平均システム滞在時間: {AverageTime}");
             Console.WriteLine($"パケット廃棄率: {AverageDisposePercentage}");
+            */
         }
 
         public void Theoretical()
@@ -224,6 +226,8 @@ namespace Hoge
                 }
             }
             Finally();
+            Report();
+            Theoretical();
         }
     }
 }

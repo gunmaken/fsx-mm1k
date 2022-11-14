@@ -5,44 +5,27 @@ open XPlot.Plotly
 open Hoge
 open System
 
-let averagePacket = [|for _ in 1..7 -> 0.0|]
-let averageTime = [|for _ in 1..7 -> 0.0|]
-let averageDisposePercentage = [|for _ in 1..7 -> 0.0|]
+let averagePacket = []
+let averageTime = []
+let averageDisposePercentage = []
+let N = []
+let W = []
+let Pk = []
+
+let hoge lambda =
+    let x = new MM1K(lambda, 1.0, 50, 1000, 0)
+    x.StartSimulation()
+    [x.AveragePacket; x.AverageTime; x.AverageDisposePercentage; x.N; x.W; x.Pk]
+
+let foo lambda =
+    [for _ in 0..9 -> hoge lambda]
+    |> List.reduce (fun x y -> (List.map2 (fun a b -> a + b) x y))
+    |> List.map (fun x -> x / 10.)
+
+(foo 1.0) |> List.iter (stdout.WriteLine)
+
+(*
+[0..6] |> List.map (float >> fun x -> foo (Math.Round (0.7 + x * 0.05, 2))) |> List.iter (fun x -> stdout.WriteLine x)
+*)
 
 
-let rec loop1 i =
-    
-    let rec loop2 j =
-        if j = 7 then ()
-        else
-            let a = new MM1K(Math.Round (0.7 + (j |> double) * 0.05, 2), 1., 50, 10000, 0)
-            a.StartSimulation()
-            a.Report()
-            averagePacket.[j] <- a.AveragePacket + averagePacket.[j]
-            averageTime.[j] <- a.AverageTime + averageTime.[j]
-            averageDisposePercentage.[j] <- a.AverageDisposePercentage + averageDisposePercentage.[j]
-            loop2 (j + 1)
-    if i = 10 then ()
-    else
-        loop2 0
-        loop1 (i + 1)
-
-loop1 0
-let xlist = [for i in 0..6 -> Math.Round (0.7 + (i |> double) * 0.05, 2)]
-let plist = averagePacket |> Array.map (fun x -> x / 10.) |> Array.toList
-let llist = averageTime |> Array.map (fun x -> x / 10.) |> Array.toList
-let dlist = averageDisposePercentage |> Array.map (fun x -> x / 10.) |> Array.toList
-plist |> List.iter (fun x -> stdout.WriteLine x)
-
-
-let rec loop2 j =
-    if j = 7 then ()
-    else
-        let a = new MM1K(Math.Round (0.7 + (j |> double) * 0.05, 2), 1., 50, 10000, 0)
-        a.StartSimulation()
-        a.Report()
-        a.Theoretical()
-        printfn $"{a.N} {a.W} {a.Pk}"
-        loop2 (j + 1)
-
-loop2 0
